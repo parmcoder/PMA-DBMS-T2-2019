@@ -1,5 +1,5 @@
 import psycopg2
-
+#For testing
 def connect():
     """ Connect to the PostgreSQL database server """
     conn = None
