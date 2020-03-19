@@ -66,7 +66,7 @@ def get_price():
             return pointer
 
 #Use for execute query, any query
-def db_executer(query_i):
+def db_executer_with_commit(query_i):
     conn = None
     pointer = query_i
     try:
@@ -81,8 +81,7 @@ def db_executer(query_i):
         print('PostgreSQL executing query: '+ pointer)
 
         cur.execute(pointer)
-        if "insert" in (pointer.lower()):
-            conn.commit()
+        conn.commit()
 
         # display the PostgreSQL database server version
         pointer2 = cur.fetchone()
@@ -131,10 +130,12 @@ def receipt_gen(n=100):
         prescription_query_complete = prescription_query[:len(prescription_query) - 1]
     else:
         prescription_query_complete = ""
-    db_executer(receipt_query_complete)
-    db_executer(prescription_query_complete)
+    db_executer_with_commit(receipt_query_complete)
+    db_executer_with_commit(prescription_query_complete)
 
-receipt_gen()
+db_executer_with_commit("delete from prescription")
+db_executer_with_commit("delete from receipt")
+receipt_gen() #How many data do you want to generate
 
 
 

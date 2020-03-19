@@ -18,7 +18,7 @@ CREATE TABLE medicine(
                          company_name varchar,
                          brand_name varchar,
                          description varchar,
-                         price integer,
+                         price float,
                          quantity integer,
                          PRIMARY KEY (stock_id));
 
@@ -30,16 +30,12 @@ CREATE TABLE patient(
 
 CREATE TABLE receipt(
                          rid integer,
-                         total varchar,
-                         r_date date,
-                         PRIMARY KEY (rid));
-
-CREATE TABLE history(
-                         rid integer,
+                         total integer,
                          pid integer,
                          r_date date,
-                         FOREIGN KEY (pid) REFERENCES patient(pid),
-                         FOREIGN KEY (rid) REFERENCES receipt(rid));
+                         PRIMARY KEY (rid),
+                         FOREIGN KEY (pid) REFERENCES patient(pid));
+
 
 CREATE TABLE prescription(
                          rid integer,
@@ -47,6 +43,7 @@ CREATE TABLE prescription(
                          quantity integer,
                          FOREIGN KEY (stock_id) REFERENCES medicine(stock_id),
                          FOREIGN KEY (rid) REFERENCES receipt(rid));
+
 
 insert into medicine(
                          stock_id,
