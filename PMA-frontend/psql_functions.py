@@ -1,7 +1,8 @@
-import psycopg2
-import numpy as np
-import time
 import datetime
+import time
+
+import psycopg2
+
 """
 @Parm db_executer - execute on db4parm
 Instruction: db_executer(query,mode,rows)
@@ -63,8 +64,6 @@ Instruction: get_medicine_table()
 def get_medicine_table():
     med_query = "SELECT * FROM medicine order by stock_id desc"
     resultset = db_executer(med_query, 1, )
-    # for i in resultset:
-    #     print(i)
     return resultset
 
 """

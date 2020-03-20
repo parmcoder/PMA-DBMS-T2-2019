@@ -1,5 +1,8 @@
+
 from tkinter import *
 from tkinter.ttk import *
+from psql_functions import get_medicine_table
+
 window = Tk()
 window.title("PMA")
 window.geometry("800x600")
@@ -24,7 +27,6 @@ def predictClicked():
     listBtn.pack(side=TOP, fill=X)
 
 
-     
 lbl = Label(window, text="Pharmacist Medical Analyzer")
 lbl.pack()
 
@@ -49,19 +51,17 @@ btnframe.pack(side=TOP, anchor=W)
 
 tableframe = Frame(window)
 
-cols = ('Drug', 'Price')
+results = get_medicine_table()
+
+cols = ('Stock ID', 'Expiration Date', 'Company name', 'Brand name', 'Description', 'Price', 'Quantity')
 listBox = Treeview(tableframe, columns=cols, show='headings')
 for col in cols:
     listBox.heading(col, text=col)
 listBox.grid(row=1, column=0, columnspan=2)
-tempList = [['Paracetamol', '500'], ['Ibuprofen', '360'], ['Amoxicillin', '420']]
 
-for i, (name, price) in enumerate(tempList, start=1):
-    listBox.insert("", "end", values=(name, price))
+for row in results:
+    listBox.insert("", "end", values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
 
+if __name__ == '__main__':
+    window.mainloop()
 
-
-
-
-
-window.mainloop()
