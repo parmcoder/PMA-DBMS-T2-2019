@@ -187,8 +187,7 @@ def update_patient_table(update):
         if update[i + 1] is not None:
             up_query = up_query + attr + " = \'" + str(update[i + 1]) + "\', "
     up_query = up_query[:len(up_query) - 2] + " WHERE pid = " + str(update[0]) + ";"
-    # db_executer(um_query, 3, )
-    print(up_query)
+    db_executer(up_query, 3, )
 
 """
 @Parm insert_patient_table - delete tuple with receipt_id from data, accept list only
@@ -326,9 +325,10 @@ Instruction: predict_restock(base_stock)
 *RETURN* ->  to_buy_list, trend_slope_x, trend_slope_y, trend_slope, c, date
     *to_buy_list* is a list of [integer, stock_info] where integer stands for amount of drugs needed to be bought
     Example : [[47, (16, 75, 145)],...,]
-                    1.stock_left  2.amount_left 3.stock_id
+                    1.amount_purchase  2.amount_left_in_stock 3.stock_id
     trend_slope_x, trend_slope_y, trend_slope, and c are used for plotting
-    and date is list of pivots for the graph
+    date is list of pivots for the graph you may use it for explanation, just show in a table
+    present_string is the day you run this query
  
 ีused plotter(...) to plot the graph and you will find a processed.jpeg
 
@@ -379,7 +379,7 @@ def predict_restock(base_stock=100):
         to_buy_list.append([int(amount_to_buy), ele])
     print(to_buy_list)
     print(date)
-    return to_buy_list, date, trend_slope_x, trend_slope_y, trend_slope, c, date, present_string #Not done
+    return to_buy_list, date, trend_slope_x, trend_slope_y, trend_slope, c, date, present_string
 
 def plotter(trend_slope_x, trend_slope_y, trend_slope, c, date, present_string):
     plt.figure(figsize=(20, 10))
@@ -392,8 +392,6 @@ def plotter(trend_slope_x, trend_slope_y, trend_slope, c, date, present_string):
     plt.legend()
     plt.savefig("processed.png")
     print("done")
-
-# predict_restock(100)
 
 
 
