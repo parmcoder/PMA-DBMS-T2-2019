@@ -252,15 +252,17 @@ Also, the basic formula is as follow :
                    = base_stock - amount_left + int((amount_sold)*trend_slope)            if on the top 10, but not top 3
                    = base_stock - amount_left                                             otherwise           
 trend_slope is predicted using linear regression on the trend with straight line.
-base_stock is around 30, depends on the shop size.
+base_stock is around 100, depends on the shop size.
 
 Instruction: predict_restock(base_stock)
 *RETURN* ->  to_buy_list, trend_slope_x, trend_slope_y, trend_slope, c, date
-to_buy_list is a list of [integer, stock_id] where integer stands for amount of drugs needed to be bought
-trend_slope_x, trend_slope_y, trend_slope, and c are used for plotting
-and date is list of pivots for the graph
+    *to_buy_list* is a list of [integer, stock_info] where integer stands for amount of drugs needed to be bought
+    Example : [[47, (16, 75, 145)],...,]
+                    1.stock_left  2.amount_left 3.stock_id
+    trend_slope_x, trend_slope_y, trend_slope, and c are used for plotting
+    and date is list of pivots for the graph
  
-ีused plotter to plot the graph and you will find a processed.jpeg
+ีused plotter(...) to plot the graph and you will find a processed.jpeg
 
 This is advance function calculate the shortage of stocks and maximize profit
 """
@@ -274,17 +276,14 @@ def predict_restock(base_stock=100):
                                    "(select sum(quantity) amount_purchase, stock_id "
                                    " from prescription INNER JOIN receipt r on prescription.rid = r.rid"
                                    " where r_date > \'" + time_string +"\' group by stock_id "
-                                   "order by amount_purchase desc LIMIT 10) chosen "
-                                   "INNER JOIN medicine on medicine.stock_id = chosen.stock_id ;", 1, )
+                                   ") chosen INNER JOIN medicine on medicine.stock_id = chosen.stock_id "
+                                   "order by amount_purchase desc;", 1, )
 
     trends_my_earning = db_executer("select extract(month from r_date) as mm,"
                                     "extract(year from r_date) as yyyy,"
                                     "sum(total) as earning from receipt "
                                     "group by 1,2 order by 2,1;", 1, )
 
-    #find the slopse
-    # for i in top_drug_1_month:
-    #     print(i)
     trend_slope_x = np.array([i for i, ele in enumerate(trends_my_earning)]) #?
     trend_slope_y = np.array([ele[2] for i, ele in enumerate(trends_my_earning)]) #?
 
@@ -295,7 +294,7 @@ def predict_restock(base_stock=100):
         return np.sum((m * trend_slope_x + c - trend_slope_y) ** 2)
     res = minimize(cost, np.array([10, 15]))
     trend_slope, c = res.x
-    plotter(trend_slope_x, trend_slope_y, trend_slope, c, date)
+    plotter(trend_slope_x, trend_slope_y, trend_slope, c, date, present_string)
     to_buy_list = []
     for i, ele in enumerate(top_drug_1_month):
         amount_left = ele[1]
@@ -310,17 +309,18 @@ def predict_restock(base_stock=100):
         if amount_to_buy < 0:
             amount_to_buy = 0
         to_buy_list.append([int(amount_to_buy), ele])
+    print(to_buy_list)
+    print(date)
+    return to_buy_list, date, trend_slope_x, trend_slope_y, trend_slope, c, date, present_string #Not done
 
-    # print(to_buy_list)
-    return to_buy_list, trend_slope_x, trend_slope_y, trend_slope, c, date #Not done
-
-def plotter(trend_slope_x, trend_slope_y, trend_slope, c, date):
+def plotter(trend_slope_x, trend_slope_y, trend_slope, c, date, present_string):
     plt.figure(figsize=(20, 10))
     plt.plot(trend_slope_x, [trend_slope*i + c for i in trend_slope_x], label='overall trend')
     plt.plot(trend_slope_x, trend_slope_y, 'o', label='earning per month')
     plt.plot(trend_slope_x, trend_slope_y, label='actual earning trend')
     plt.xlabel("Months after " + str(round(date[0][1][0])) + "/" + str(round(date[0][1][1])))
     plt.ylabel("Total earning each month")
+    plt.title("Graph of total earnings before "+str(present_string))
     plt.legend()
     plt.savefig("processed.jpeg")
     print("done")
