@@ -135,7 +135,7 @@ def receipt_gen(n=100):
 
 db_executer_with_commit("delete from prescription")
 db_executer_with_commit("delete from receipt")
-receipt_gen() #How many data do you want to generate
+receipt_gen(10000) #How many data do you want to generate
 
 
 

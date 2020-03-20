@@ -1,5 +1,8 @@
 import psycopg2
 import numpy as np
+from matplotlib import pyplot as plt
+import math
+from scipy.optimize import minimize
 import time
 import datetime
 """
@@ -65,6 +68,24 @@ def get_medicine_table():
     resultset = db_executer(med_query, 1, )
     # for i in resultset:
     #     print(i)
+    return resultset
+
+"""
+@Parm get_medicine_rows - return sorted medicine rows with stock_id asked for
+Instruction: get_medicine_rows(stock_id)
+*RETURN* -> list of tuple with corresponding attributes
+"""
+def get_medicine_rows(ids):
+    med_id_query = "SELECT * FROM medicine where stock_id = "
+    ids_n = len(ids)
+    for i, ele in enumerate(ids):
+        med_id_query = med_id_query + str(ele)
+        if i < ids_n-1 :
+            med_id_query=med_id_query + " or stock_id = "
+    med_id_query = med_id_query+" order by stock_id"
+    resultset = db_executer(med_id_query, 1, )
+    for i in resultset:
+        print(i)
     return resultset
 
 """
@@ -156,6 +177,25 @@ def delete_receipt_prescription_table(rids):
         db_executer(r1_query, 3, )
 
 """
+@Parm delete_receipt_prescription_table - delete tuple with receipt_id from data, accept list only
+Instruction: delete_receipt_prescription_table(patient_id_list)
+*RETURN* -> None
+This function affect receipt and prescription
+"""
+def insert_patient_table(values):
+    return
+
+"""
+@Parm delete_receipt_prescription_table - delete tuple with receipt_id from data, accept list only
+Instruction: delete_receipt_prescription_table(patient_id_list)
+*RETURN* -> None
+This function affect receipt and prescription
+"""
+def insert_medicine_table(values):
+    return
+
+
+"""
 @Parm expire_compare_bool - compare time if time_first is before time_another
 Instruction: expire_compare_bool(time_first, time_another)
 *RETURN* -> Boolean
@@ -201,8 +241,10 @@ def nearest_expire_date(days=7):
 @Parm predict_restock - search through the receipt table and prescription 
 then show the list of stocks that needed to be restock according to the trend.
 
-About the product popularity trend, we find the first top 10 most purchased drug on the last month and let them be popular drugs.
-About the sales trend, we plot the graph by using total earning in each month to predict how much do we need to pre-purchase the drugs.
+About the product popularity trend, we find the first top 10 most purchased drug on the 
+last month and let them be popular drugs.
+About the sales trend, we plot the graph by using total earning from each month to predict 
+how much do we need to pre-purchase the drugs.
 
 With 2 data, we assume that the more we earn in the previous month, the more we will purchase the drugs.
 Also, the basic formula is as follow :
@@ -213,15 +255,85 @@ trend_slope is predicted using linear regression on the trend with straight line
 base_stock is around 30, depends on the shop size.
 
 Instruction: predict_restock(base_stock)
-*RETURN* -> list of [integer, tuple] where integer stands for amount of drugs needed to be bought and list of pivots for the graph (date, earning)
+*RETURN* ->  to_buy_list, trend_slope_x, trend_slope_y, trend_slope, c, date
+to_buy_list is a list of [integer, stock_id] where integer stands for amount of drugs needed to be bought
+trend_slope_x, trend_slope_y, trend_slope, and c are used for plotting
+and date is list of pivots for the graph
+ 
+ีused plotter to plot the graph and you will find a processed.jpeg
 
 This is advance function calculate the shortage of stocks and maximize profit
 """
 def predict_restock(base_stock=100):
     named_tuple = time.localtime()  # get struct_time
     date = datetime.datetime(named_tuple[0], named_tuple[1], named_tuple[2])
-    popularity_check = date + datetime.timedelta(30)
+    popularity_check = date - datetime.timedelta(30)
     time_string = popularity_check.strftime('%Y-%m-%d')
     present_string = date.strftime('%Y-%m-%d')
-    receipt_table = db_executer("SELECT * FROM receipt where r_date < \'"+ time_string+"\'")
-    return 1 #Not done
+    top_drug_1_month = db_executer("select amount_purchase, quantity, chosen.stock_id sid from "
+                                   "(select sum(quantity) amount_purchase, stock_id "
+                                   " from prescription INNER JOIN receipt r on prescription.rid = r.rid"
+                                   " where r_date > \'" + time_string +"\' group by stock_id "
+                                   "order by amount_purchase desc LIMIT 10) chosen "
+                                   "INNER JOIN medicine on medicine.stock_id = chosen.stock_id ;", 1, )
+
+    trends_my_earning = db_executer("select extract(month from r_date) as mm,"
+                                    "extract(year from r_date) as yyyy,"
+                                    "sum(total) as earning from receipt "
+                                    "group by 1,2 order by 2,1;", 1, )
+
+    #find the slopse
+    # for i in top_drug_1_month:
+    #     print(i)
+    trend_slope_x = np.array([i for i, ele in enumerate(trends_my_earning)]) #?
+    trend_slope_y = np.array([ele[2] for i, ele in enumerate(trends_my_earning)]) #?
+
+    date = [[i, [ele[0],ele[1]]] for i, ele in enumerate(trends_my_earning)]
+
+    def cost(v):
+        m, c = v
+        return np.sum((m * trend_slope_x + c - trend_slope_y) ** 2)
+    res = minimize(cost, np.array([10, 15]))
+    trend_slope, c = res.x
+    plotter(trend_slope_x, trend_slope_y, trend_slope, c, date)
+    to_buy_list = []
+    for i, ele in enumerate(top_drug_1_month):
+        amount_left = ele[1]
+        amount_sold = ele[0]
+        ranking = i+1
+        if i < 3:
+            amount_to_buy = base_stock - amount_left + amount_sold + amount_sold / (2.5 * ranking)
+        elif 3 <= i <= 9:
+            amount_to_buy = base_stock - amount_left + int((amount_sold)*trend_slope/100)
+        else:
+            amount_to_buy = base_stock - amount_left
+        if amount_to_buy < 0:
+            amount_to_buy = 0
+        to_buy_list.append([int(amount_to_buy), ele])
+
+    # print(to_buy_list)
+    return to_buy_list, trend_slope_x, trend_slope_y, trend_slope, c, date #Not done
+
+def plotter(trend_slope_x, trend_slope_y, trend_slope, c, date):
+    plt.figure(figsize=(20, 10))
+    plt.plot(trend_slope_x, [trend_slope*i + c for i in trend_slope_x], label='overall trend')
+    plt.plot(trend_slope_x, trend_slope_y, 'o', label='earning per month')
+    plt.plot(trend_slope_x, trend_slope_y, label='actual earning trend')
+    plt.xlabel("Months after " + str(round(date[0][1][0])) + "/" + str(round(date[0][1][1])))
+    plt.ylabel("Total earning each month")
+    plt.legend()
+    plt.savefig("processed.jpeg")
+    print("done")
+
+predict_restock(100)
+
+
+
+
+
+
+
+
+
+
+
