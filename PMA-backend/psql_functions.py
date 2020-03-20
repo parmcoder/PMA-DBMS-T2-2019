@@ -322,7 +322,7 @@ def plotter(trend_slope_x, trend_slope_y, trend_slope, c, date, present_string):
     plt.ylabel("Total earning each month")
     plt.title("Graph of total earnings before "+str(present_string))
     plt.legend()
-    plt.savefig("processed.jpeg")
+    plt.savefig("processed.png")
     print("done")
 
 predict_restock(100)
