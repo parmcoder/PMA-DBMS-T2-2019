@@ -31,11 +31,15 @@ class App:
         self.salesBtn = Button(self.btnframe, text="Sales", command=self.salesClicked)
         self.patientBtn = Button(self.btnframe, text="Patients", command=self.patientclicked)
         self.insertBtn = Button(self.btnframe, text="Insert data")
-        self.modifyBtn = Button(self.btnframe, text="Modify data")
+        self.modifyBtn = Button(self.btnframe, text="Modify data", command = self.updateClicked)
         self.deleteBtn = Button(self.btnframe, text="Delete data")
         self.expBtn = Button(self.medframe, text="Expiring", command=self.expiredclicked)
         self.predictBtn = Button(self.salesframe, text="Prediction", command=self.predictClicked)
         self.listBtn = Button(self.salesframe, text="List")
+
+        #Parm's updateGUI - start
+        # self.
+        #Parm's updateGUI - end
 
         self.medicineBtn.pack(side=LEFT)
         self.salesBtn.pack(side=LEFT)
@@ -120,6 +124,21 @@ class App:
         self.salestableframe.pack_forget()
         self.medtableframe.pack_forget()
         self.showtable(self.patienttableframe)
+
+    # Parm's updateFunction - start
+    def updateUI_Pane(self):
+        self.label = ttk.Label(self, text = "Enter Your rid")
+    def updateClicked(self):
+        self.predictframe.pack_forget()
+        self.medframe.pack_forget()
+        self.salesframe.pack_forget()
+        self.descframe.pack_forget()
+        self.exptableframe.pack_forget()
+        self.salestableframe.pack_forget()
+        self.medtableframe.pack_forget()
+        # self.showtable(self.patienttableframe)
+    # Parm's updateFunction - end
+
 
     def OnDoubleClick(self, table, cols):
         row = table.focus()
