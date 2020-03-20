@@ -21,6 +21,7 @@ class App:
         self.buylistframe = Frame(self.window)
         self.entryframe1 = Frame(self.window)
         self.entryframe2 = Frame(self.window)
+        self.entryframe3 = Frame(self.window)
         self.submitframe = Frame(self.window)
         
         self.medtable_results = backend_functions.get_medicine_table()
@@ -40,10 +41,15 @@ class App:
         self.predictBtn = Button(self.salesframe, text="Prediction", command=self.predictClicked)
         self.listBtn = Button(self.salesframe, text="List", command=self.listclicked)
         self.insertmedbtn = Button(self.insertselectionframe, text="Insert data into medicine table", command=self.insert_medicine_entry)
-        self.insertsalesbtn = Button(self.insertselectionframe, text="Insert data into sales table", command=self.insert_patient_entry)
-        self.insertpatientbtn = Button(self.insertselectionframe, text="Insert data into patient table")
-        self.submitbtn = Button(self.submitframe, text='Submit', command=self.submit_insert_request_1)
+        self.insertsalesbtn = Button(self.insertselectionframe, text="Insert data into patient table", command=self.insert_patient_entry)
+        self.insertpatientbtn = Button(self.insertselectionframe, text="Insert data into sales table", command=self.insert_receipt_entry)
+        self.submitbtn1 = Button(self.submitframe, text='Submit', command=self.submit_insert_request_1)
+        self.submitbtn2 = Button(self.submitframe, text='Submit', command=self.submit_insert_request_2)
+        self.submitbtn3 = Button(self.submitframe, text='Submit', command=self.submit_insert_request_3)
+        self.confirm = Button(self.entryframe3, text='Confirm', command=self.confirm_prescription_number)
         
+        self.insert_label_1 = Label(self.entryframe1, text="Insert Stock ID, Expiration Date, Company name, Brand name, Description, Price and Quantity")
+        self.insert_label_1.pack(side=TOP)
         
         self.insert_entry_data1 = StringVar()
         self.insert_entry_data2 = StringVar()
@@ -52,6 +58,7 @@ class App:
         self.insert_entry_data5 = StringVar()
         self.insert_entry_data6 = StringVar()
         self.insert_entry_data7 = StringVar()
+        
         self.insert_entry1 = Entry(self.entryframe1, textvariable=self.insert_entry_data1)
         self.insert_entry2 = Entry(self.entryframe1, textvariable=self.insert_entry_data2)
         self.insert_entry3 = Entry(self.entryframe1, textvariable=self.insert_entry_data3)
@@ -68,6 +75,9 @@ class App:
         self.insert_entry6.pack(side=TOP)
         self.insert_entry7.pack(side=TOP)
         
+        self.insert_label_2 = Label(self.entryframe2, text="Insert Patient ID, Patient name, and allergy")
+        self.insert_label_2.pack(side=TOP)
+        
         self.insert_patient_entry1 = Entry(self.entryframe2, textvariable=self.insert_entry_data1)
         self.insert_patient_entry2 = Entry(self.entryframe2, textvariable=self.insert_entry_data2)
         self.insert_patient_entry3 = Entry(self.entryframe2, textvariable=self.insert_entry_data3)
@@ -76,8 +86,23 @@ class App:
         self.insert_patient_entry2.pack(side=TOP)
         self.insert_patient_entry3.pack(side=TOP)
         
+        self.insert_label_3 = Label(self.entryframe3, text="Insert Receipt ID, Total, Patient ID, Date, and number of prescriptions")
+        self.insert_label_3.pack(side=TOP)
         
-
+        self.insert_receipt_entry1 = Entry(self.entryframe3, textvariable=self.insert_entry_data1)
+        self.insert_receipt_entry2 = Entry(self.entryframe3, textvariable=self.insert_entry_data2)
+        self.insert_receipt_entry3 = Entry(self.entryframe3, textvariable=self.insert_entry_data3)
+        self.insert_receipt_entry4 = Entry(self.entryframe3, textvariable=self.insert_entry_data4)
+        self.insert_receipt_entry5 = Entry(self.entryframe3, textvariable=self.insert_entry_data5)
+        
+        
+        self.insert_receipt_entry1.pack(side=TOP)
+        self.insert_receipt_entry2.pack(side=TOP)
+        self.insert_receipt_entry3.pack(side=TOP)
+        self.insert_receipt_entry4.pack(side=TOP)
+        self.insert_receipt_entry5.pack(side=TOP)
+        
+        
         self.medicineBtn.pack(side=LEFT)
         self.salesBtn.pack(side=LEFT)
         self.patientBtn.pack(side=LEFT)
@@ -90,8 +115,7 @@ class App:
         self.insertsalesbtn.pack(side=LEFT)
         self.insertpatientbtn.pack(side=LEFT)
         self.btnframe.pack(side=TOP, anchor=W)
-        self.insert_entry1.pack(side=TOP, anchor=S)
-        self.submitbtn.pack()
+        self.submitframe.pack(side=LEFT, padx=20)
        
         
         self.cols1 = ('Stock ID', 'Expiration Date', 'Company name', 'Brand name', 'Description', 'Price', 'Quantity')
@@ -129,6 +153,9 @@ class App:
         Label(self.predictframe, image=self.img).pack()
         
         self.window.mainloop()
+        
+    def confirm_prescription_number(self):
+        getvar1 = self.insert_receipt_entry5.get()
 
     def submit_insert_request_1(self):
         getvar1 = self.insert_entry_data1.get()
@@ -144,12 +171,21 @@ class App:
         
         
     def submit_insert_request_2(self):
-        getvar1 = self.insert_patient_entry1
-        getvar2 = self.insert_patient_entry2
-        getvar3 = self.insert_patient_entry3
+        getvar1 = self.insert_patient_entry1.get()
+        getvar2 = self.insert_patient_entry2.get()
+        getvar3 = self.insert_patient_entry3.get()
         
         values = [getvar1, getvar2, getvar3]
         print(values)
+
+
+    def submit_insert_request_3(self):
+        getvar1 = self.insert_receipt_entry1.get()
+        getvar2 = self.insert_receipt_entry2.get()
+        getvar3 = self.insert_receipt_entry3.get()
+        getvar4 = self.insert_receipt_entry4.get()
+        
+        values = [getvar1, getvar2, getvar3, getvar4]
 
     def medicineClicked(self):
         self.buylistframe.pack_forget()
@@ -217,17 +253,37 @@ class App:
         self.patienttableframe.pack_forget()
         self.insertselectionframe.pack(side=TOP, anchor=W, pady=20)
         
+        
     def insert_medicine_entry(self):
         self.entryframe2.pack_forget()
-        self.submitframe.pack_forget()
+        self.submitbtn2.pack_forget()
+        self.entryframe3.pack_forget()
+        self.submitbtn3.pack_forget()
+
         self.entryframe1.pack(side=TOP, anchor=W, padx=20)
-        self.submitframe.pack(side=TOP, anchor=W, padx=20)
+        self.submitbtn1.pack()
+
         
     def insert_patient_entry(self):
         self.entryframe1.pack_forget()
-        self.submitframe.pack_forget()
+        self.submitbtn1.pack_forget()
+        self.entryframe3.pack_forget()
+        self.submitbtn3.pack_forget()
+
         self.entryframe2.pack(side=TOP, anchor=W, padx=20)
-        self.submitframe.pack(side=TOP, anchor=W, padx=20)
+        self.submitbtn2.pack()
+        
+        
+    def insert_receipt_entry(self):
+        self.entryframe1.pack_forget()
+        self.submitbtn1.pack_forget()
+        self.entryframe2.pack_forget()
+        self.submitbtn2.pack_forget()
+        
+        self.entryframe3.pack(side=TOP, anchor=W, padx=20)
+        self.submitbtn3.pack()
+        self.confirm.pack()
+        
 
     def OnDoubleClick(self, table, cols):
         row = table.focus()
