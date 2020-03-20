@@ -61,7 +61,7 @@ Instruction: get_medicine_table()
 *RETURN* -> list of tuple with corresponding attributes
 """
 def get_medicine_table():
-    med_query = "SELECT * FROM medicine order by stock_id desc"
+    med_query = "SELECT * FROM medicine order by stock_id"
     resultset = db_executer(med_query, 1, )
     # for i in resultset:
     #     print(i)
@@ -73,7 +73,7 @@ Instruction: get_patient_table()
 *RETURN* -> list of tuple with corresponding attributes
 """
 def get_patient_table():
-    p_query = "SELECT * FROM patient order by pid desc"
+    p_query = "SELECT * FROM patient order by pid"
     resultset = db_executer(p_query, 1, )
     # for i in resultset:
     #     print(i)
@@ -85,7 +85,7 @@ Instruction: get_receipt_table()
 *RETURN* -> list of tuple with corresponding attributes
 """
 def get_receipt_table():
-    r_query = "SELECT * FROM receipt order by rid desc"
+    r_query = "SELECT * FROM receipt order by rid"
     resultset = db_executer(r_query, 1, )
     # for i in resultset:
     #     print(i)
@@ -97,7 +97,7 @@ Instruction: get_prescription_table()
 *RETURN* -> list of tuple with corresponding attributes
 """
 def get_prescription_table():
-    pre_query = "SELECT * FROM prescription order by rid desc"
+    pre_query = "SELECT * FROM prescription order by rid"
     resultset = db_executer(pre_query, 1, )
     # for i in resultset:
     #     print(i)
@@ -201,23 +201,27 @@ def nearest_expire_date(days=7):
 @Parm predict_restock - search through the receipt table and prescription 
 then show the list of stocks that needed to be restock according to the trend.
 
-About the product popularity trend, we find the top 10 most purchased drug on the last 3 month and let them be popular drugs.
+About the product popularity trend, we find the first top 10 most purchased drug on the last month and let them be popular drugs.
 About the sales trend, we plot the graph by using total earning in each month to predict how much do we need to pre-purchase the drugs.
 
 With 2 data, we assume that the more we earn in the previous month, the more we will purchase the drugs.
 Also, the basic formula is as follow :
-    amount_to_buy  = base_stock + amount_sold + amount_sold/(2.5*ranking)                 if on the top 3
-                   = base_stock + int((amount_sold)*trend_slope)                          if on the top 10, but not top 3
+    amount_to_buy  = base_stock - amount_left + amount_sold + amount_sold/(2.5*ranking)   if on the top 3
+                   = base_stock - amount_left + int((amount_sold)*trend_slope)            if on the top 10, but not top 3
                    = base_stock - amount_left                                             otherwise           
 trend_slope is predicted using linear regression on the trend with straight line.
 base_stock is around 30, depends on the shop size.
 
-Instruction: predict_restock(year,month,base_stock) where year and month comes from the date we want to restock.
-The lastest timestamp is 2020-12-30. Beyond that won't show more graph, so assume the date you were at the moment.
+Instruction: predict_restock(base_stock)
 *RETURN* -> list of [integer, tuple] where integer stands for amount of drugs needed to be bought and list of pivots for the graph (date, earning)
 
 This is advance function calculate the shortage of stocks and maximize profit
 """
-def predict_restock():
-
-    return 1
+def predict_restock(base_stock=100):
+    named_tuple = time.localtime()  # get struct_time
+    date = datetime.datetime(named_tuple[0], named_tuple[1], named_tuple[2])
+    popularity_check = date + datetime.timedelta(30)
+    time_string = popularity_check.strftime('%Y-%m-%d')
+    present_string = date.strftime('%Y-%m-%d')
+    receipt_table = db_executer("SELECT * FROM receipt where r_date < \'"+ time_string+"\'")
+    return 1 #Not done

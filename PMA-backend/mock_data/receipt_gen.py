@@ -104,7 +104,7 @@ def receipt_gen(n=100):
     prescription_query = "INSERT INTO prescription(rid, stock_id, quantity) VALUES "
     #rid, pid, r_date, [stock_id,quantity]
     for i in range(1,n):
-        date = random_date("2019-01-01", "2021-01-01", np.random.random())
+        date = random_date("2018-01-01", "2020-03-01", np.random.random())
         rid = i
         pid = np.random.randint(1,1000)
         total = 0
