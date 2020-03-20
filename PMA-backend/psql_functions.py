@@ -124,7 +124,7 @@ def get_prescription_table():
 
 """
 @Parm update_medicine_table(update) - make changes to medicine table
-Instruction: get_medicine_table(update) where update list must be put in this form
+Instruction: update_medicine_table(update) where update list must be put in this form
 [stock_id*, exp_date, company_name, brand_name, description, price, quantity]
 We assumed that there must be a change given in one of each value and stock_id must not be None
 """
@@ -190,8 +190,9 @@ def update_patient_table(update):
     db_executer(up_query, 3, )
 
 """
-@Parm insert_patient_table - delete tuple with receipt_id from data, accept list only
-Instruction: delete_receipt_prescription_table(patient_id_list) values follow attributes in the schemas
+@Parm insert_patient_table(values) - delete tuple with receipt_id from data, accept list only
+Instruction: insert_patient_table(values) values follow attributes in the schemas
+[pid, p_name, allergy]
 *RETURN* -> None
 """
 def insert_patient_table(values):
@@ -202,6 +203,7 @@ def insert_patient_table(values):
 """
 @Parm insert_medicine_table(values) -  insert tuple with pid from data, accept list only
 Instruction: insert_medicine_table(values) values follow attributes in the schemas
+[stock_id, exp_date, company_name, brand_name, description, price, quantity]
 *RETURN* -> None
 """
 def insert_medicine_table(values):
