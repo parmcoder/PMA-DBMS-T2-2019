@@ -1,67 +1,102 @@
-
 from tkinter import *
 from tkinter.ttk import *
-from psql_functions import get_medicine_table
-
-window = Tk()
-window.title("PMA")
-window.geometry("800x600")
-btnframe = Frame(window)
-medframe = Frame(window)
-salesframe = Frame(window)
+import backend_functions
 
 
-def medicineClicked():
-    salesframe.pack_forget()
-    medframe.pack(side=TOP, anchor=NE)
-    tableframe.pack(anchor=W)
+class App:
+    def __init__(self):
+        self.window = Tk()
+        self.window.title("PMA")
+        self.window.geometry("1200x600")
+        self.btnframe = Frame(self.window)
+        self.medframe = Frame(self.window)
+        self.medtableframe = Frame(self.window)
+        self.descframe = Frame(self.window)
+        self.salesframe = Frame(self.window)
+        self.medtable_results = backend_functions.get_medicine_table()
+        Label(self.window, text="Pharmacist Medical Analyzer").pack()
+
+        self.medicineBtn = Button(self.btnframe, text="Medicines", command=self.medicineClicked)
+        self.salesBtn = Button(self.btnframe, text="Sales", command=self.salesClicked)
+        self.insertBtn = Button(self.btnframe, text="Insert data")
+        self.modifyBtn = Button(self.btnframe, text="Modify data")
+        self.deleteBtn = Button(self.btnframe, text="Delete data")
+        self.expBtn = Button(self.medframe, text="Expiring")
+        self.predictBtn = Button(self.salesframe, text="Prediction", command=self.predictClicked)
+        self.listBtn = Button(self.salesframe, text="List")
+
+        self.medicineBtn.pack(side=LEFT)
+        self.salesBtn.pack(side=LEFT)
+        self.insertBtn.pack(side=LEFT)
+        self.modifyBtn.pack(side=LEFT)
+        self.deleteBtn.pack(side=LEFT)
+        self.predictBtn.pack(side=TOP, fill=X)
+        self.expBtn.pack(side=TOP, fill=X)
+        self.btnframe.pack(side=TOP, anchor=W)
+        
+        self.cols1 = ('Stock ID', 'Expiration Date', 'Company name', 'Brand name', 'Description', 'Price', 'Quantity')
+        self.cols2 = ('Receipt ID', 'Total', 'Patient ID', 'Receipt Date')
+        
+        self.listBox = Treeview(self.medtableframe, columns=self.cols1, show='headings')
+        
+        self.generate_medtable()
+        self.window.mainloop()
+        
+
+    def medicineClicked(self):
+        self.salesframe.pack_forget()
+        self.medframe.pack(side=TOP, anchor=E)
+        self.showtable()
+
+    def salesClicked(self):
+        self.medframe.pack_forget()
+        self.listBtn.pack_forget()
+        self.medtableframe.pack_forget()
+        self.descframe.pack_forget()
+        self.salesframe.pack(side=TOP, anchor=NE)
+
+    def predictClicked(self):
+        self.listBtn.pack(side=TOP, fill=X)
+
+    def OnDoubleClick(self, event):
+        row = self.listBox.focus()
+        data = (self.listBox.item(row)['values'])
+        self.destroywidgets(self.descframe)
+        self.showdetails(data)
+
+    def showdetails(self, item):
+        for i in range(len(item)):
+            Label(self.descframe, text=self.cols1[i] + ": " + str(item[i]), wraplength=1000).pack(side=TOP, anchor=W)
+        self.descframe.pack(side=TOP)
+
+    def destroywidgets(self, frame):
+        for widget in frame.winfo_children():
+            widget.destroy()
+
+    def showtable(self):
+        for row in self.medtable_results:
+            self.listBox.insert("", "end", values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
+        self.medtableframe.pack(side=TOP, anchor=W, fill=X)
+        
+    def generate_medtable(self):
+        # Table for medicines
+
+        self.listBox.bind("<Double-1>", self.OnDoubleClick)
+        col_width = self.listBox.winfo_width()
+        for col in self.cols1:
+            self.listBox.heading(col, text=col)
+            if col == 'Stock ID':
+                self.listBox.column(col, anchor=W, width=col_width)
+            else:
+                self.listBox.column(col, anchor=E, width=col_width)
+        self.listBox.pack(side=LEFT, expand=True, fill=BOTH)
+        # Scroll bar
+        scrollbar = Scrollbar(self.medtableframe, orient='vertical', command=self.listBox.yview)
+        self.listBox.configure(yscrollcommand=scrollbar.set)
+        scrollbar.pack(side=RIGHT, anchor=E, fill=Y)
 
 
-def salesClicked():
-    medframe.pack_forget()
-    listBtn.pack_forget()
-    tableframe.pack_forget()
-    salesframe.pack(side=TOP, anchor=NE)
 
-def predictClicked():
-    listBtn.pack(side=TOP, fill=X)
-
-
-lbl = Label(window, text="Pharmacist Medical Analyzer")
-lbl.pack()
-
-medicineBtn = Button(btnframe, text="Medicines", command=medicineClicked)
-salesBtn = Button(btnframe, text="Sales", command=salesClicked)
-insertBtn = Button(btnframe, text="Insert data")
-modifyBtn = Button(btnframe, text="Modify data")
-deleteBtn = Button(btnframe, text="Delete data")
-expBtn = Button(medframe, text="Expiring")
-predictBtn = Button(salesframe, text="Prediction", command=predictClicked)
-listBtn = Button(salesframe, text="List")
-
-medicineBtn.pack(side=LEFT)
-salesBtn.pack(side=LEFT)
-insertBtn.pack(side=LEFT)
-modifyBtn.pack(side=LEFT)
-deleteBtn.pack(side=LEFT)
-predictBtn.pack(side=TOP, fill=X)
-expBtn.pack(side=TOP, fill=X)
-
-btnframe.pack(side=TOP, anchor=W)
-
-tableframe = Frame(window)
-
-results = get_medicine_table()
-
-cols = ('Stock ID', 'Expiration Date', 'Company name', 'Brand name', 'Description', 'Price', 'Quantity')
-listBox = Treeview(tableframe, columns=cols, show='headings')
-for col in cols:
-    listBox.heading(col, text=col)
-listBox.grid(row=1, column=0, columnspan=2)
-
-for row in results:
-    listBox.insert("", "end", values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
 
 if __name__ == '__main__':
-    window.mainloop()
-
+    app = App()
