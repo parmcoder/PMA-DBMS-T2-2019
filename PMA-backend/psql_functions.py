@@ -120,28 +120,119 @@ Instruction: get_prescription_table()
 def get_prescription_table():
     pre_query = "SELECT * FROM prescription order by rid"
     resultset = db_executer(pre_query, 1, )
-    # for i in resultset:
-    #     print(i)
     return resultset
 
 """
-@Parm NOT DONE
+@Parm update_medicine_table(update) - make changes to medicine table
+Instruction: get_medicine_table(update) where update list must be put in this form
+[stock_id*, exp_date, company_name, brand_name, description, price, quantity]
+We assumed that there must be a change given in one of each value and stock_id must not be None
 """
-def update_medicine_table(updates):
-    return 1
+def update_medicine_table(update):
+    if update[0] is None:
+        return
+    iter_list_name = ["exp_date", "company_name", "brand_name", "description", "price", "quantity"]
+    um_query = "UPDATE medicine SET "
+    for i, attr in enumerate(iter_list_name):
+        if update[i+1] is not None and (4 <= i <= 5):
+            um_query = um_query + attr + " = " + str(update[i+1]) + ", "
+        if update[i+1] is not None and (0 <= i <= 3):
+            um_query = um_query + attr + " = \'" + str(update[i+1]) + "\', "
+    um_query = um_query[:len(um_query)-2] + " WHERE stock_id = "+ str(update[0]) + ";"
+    db_executer(um_query, 3, )
 
 """
-@Parm NOT DONE
-These 2 tables go together
+@Parm update_receipt_prescription_table(values, prescription_dict) - make changes to receipt and prescription tables
+Instruction: update_receipt_prescription_table(values, prescription_dict) where update list must be put in this form
+[rid*, total, pid, r_date] , {stock_id: quantity}
+We assumed that there must be a change given in one of each value and stock_id must not be None
+
+EXAMPLE : 
+    pre_dict = {234:43, 231:32, 646:32}
+    update_receipt_prescription_table([123,None,34,"2020-01-10"], pre_dict)
 """
-def update_receipt_prescription_table(updates):
-    return 1
+def update_receipt_prescription_table(values, prescription_dict):
+    if values[0] is None:
+        return
+    iter_list_name = ["total", "pid", "r_date"]
+    ur_query = "UPDATE receipt(rid, total, pid, r_date) SET "
+    for i, attr in enumerate(iter_list_name):
+        if values[i + 1] is not None and i<2:
+            ur_query = ur_query + attr + " = " + str(values[i + 1]) + ", "
+        if values[i + 1] is not None and i==2:
+            ur_query = ur_query + attr + " = \'" + str(values[i + 1]) + "\', "
+    ur_query = ur_query[:len(ur_query) - 2] + " WHERE rid = " + str(values[0]) + ";"
+    db_executer(ur_query, 3, )
+
+    for key_stock in prescription_dict.keys():
+        upre_query = "UPDATE prescription(rid, stock_id, quantity) " + \
+                             "SET quantity = "+ str(prescription_dict[key_stock]) + \
+                             " WHERE rid = " + str(values[0]) + \
+                             " and stock_id = "+ str(key_stock)
+        db_executer(upre_query, 3, )
+
 
 """
-@Parm NOT DONE
+@Parm update_patient_table(update) - make changes to patient table
+Instruction: update_patient_table(update) where update list must be put in this form
+[pid*, p_name, allergy]
+We assumed that there must be a change given in one of each value and pid must not be None
 """
-def update_patient_table(updates):
-    return 1
+def update_patient_table(update):
+    if update[0] is None:
+        return
+    iter_list_name = ["p_name", "allergy"]
+    up_query = "UPDATE patient SET "
+    for i, attr in enumerate(iter_list_name):
+        if update[i + 1] is not None:
+            up_query = up_query + attr + " = \'" + str(update[i + 1]) + "\', "
+    up_query = up_query[:len(up_query) - 2] + " WHERE pid = " + str(update[0]) + ";"
+    # db_executer(um_query, 3, )
+    print(up_query)
+
+"""
+@Parm delete_receipt_prescription_table - delete tuple with receipt_id from data, accept list only
+Instruction: delete_receipt_prescription_table(patient_id_list)
+*RETURN* -> None
+This function affect receipt and prescription
+"""
+def insert_patient_table(values):
+    pid, p_name, allergy = values
+    ip_query = "INSERT INTO patient(pid, p_name, allergy) VALUES ("+str(pid)+",\'"+str(p_name)+"\',\'"+str(allergy)+"\')"
+    db_executer(ip_query, 3, )
+
+"""
+@Parm delete_receipt_prescription_table - delete tuple with receipt_id from data, accept list only
+Instruction: delete_receipt_prescription_table(patient_id_list)
+*RETURN* -> None
+This function affect receipt and prescription
+"""
+def insert_medicine_table(values):
+    stock_id, exp_date, company_name, brand_name, description, price, quantity = values
+    ip_query = "INSERT INTO patient(stock_id, exp_date, company_name, brand_name, description, price, quantity" \
+               ") VALUES (" + str(stock_id) + ",\'" + str(exp_date) + "\',\'" + str(company_name) + "\',\'" + str(brand_name) + "\'," \
+               "\'" + str(description) + "\'," + str(price) + "," + str(quantity) + ")"
+    db_executer(ip_query, 3, )
+
+"""
+@Parm insert_receipt_prescription_table - insert tuple with receipt_id from data, accept list only
+Instruction: delete_receipt_prescription_table(patient_id_list)
+*RETURN* -> None
+This function affect receipt and prescription
+EXAMPLE : 
+    pre_dict = {234:43, 231:32, 646:32}
+    insert_receipt_prescription_table([123,345,34,"2020-01-10"], pre_dict)
+"""
+def insert_receipt_prescription_table(values, prescription_dict):
+    rid, total, pid, r_date = values
+    receipt_query = "INSERT INTO receipt(rid, total, pid, r_date) VALUES ("+str(rid)+",\'"+str(total)+"\'," \
+                    "\'"+str(pid)+"\',\'"+str(r_date)+"\')"
+    db_executer(receipt_query, 3, )
+    for key_stock in prescription_dict.keys():
+        prescription_query = "INSERT INTO prescription(rid, stock_id, quantity) " \
+                             "VALUES (" + str(rid) + "," + str(key_stock) + "," + str(prescription_dict[key_stock]) + ")"
+        db_executer(prescription_query, 3, )
+
 
 """
 @Parm delete_medicine_table - delete tuple with stock_id from data, accept list only
@@ -171,29 +262,10 @@ This function affect receipt and prescription
 """
 def delete_receipt_prescription_table(rids):
     for rid in rids:
-        r1_query = "DELETE FROM patient WHERE rid = "+str(rid)
+        r1_query = "DELETE FROM receipt WHERE rid = "+str(rid)
         r2_query = "DELETE FROM prescription WHERE rid = "+str(rid)
         db_executer(r2_query, 3, )
         db_executer(r1_query, 3, )
-
-"""
-@Parm delete_receipt_prescription_table - delete tuple with receipt_id from data, accept list only
-Instruction: delete_receipt_prescription_table(patient_id_list)
-*RETURN* -> None
-This function affect receipt and prescription
-"""
-def insert_patient_table(values):
-    return
-
-"""
-@Parm delete_receipt_prescription_table - delete tuple with receipt_id from data, accept list only
-Instruction: delete_receipt_prescription_table(patient_id_list)
-*RETURN* -> None
-This function affect receipt and prescription
-"""
-def insert_medicine_table(values):
-    return
-
 
 """
 @Parm expire_compare_bool - compare time if time_first is before time_another
@@ -233,8 +305,6 @@ def nearest_expire_date(days=7):
             expires.append([True,i])
         else:
             expires.append([False,i])
-    # for i in expires:
-    #     print(i)
     return expires
 
 """
@@ -322,10 +392,10 @@ def plotter(trend_slope_x, trend_slope_y, trend_slope, c, date, present_string):
     plt.ylabel("Total earning each month")
     plt.title("Graph of total earnings before "+str(present_string))
     plt.legend()
-    plt.savefig("processed.jpeg")
+    plt.savefig("processed.png")
     print("done")
 
-predict_restock(100)
+# predict_restock(100)
 
 
 
