@@ -191,10 +191,9 @@ def update_patient_table(update):
     print(up_query)
 
 """
-@Parm delete_receipt_prescription_table - delete tuple with receipt_id from data, accept list only
-Instruction: delete_receipt_prescription_table(patient_id_list)
+@Parm insert_patient_table - delete tuple with receipt_id from data, accept list only
+Instruction: delete_receipt_prescription_table(patient_id_list) values follow attributes in the schemas
 *RETURN* -> None
-This function affect receipt and prescription
 """
 def insert_patient_table(values):
     pid, p_name, allergy = values
@@ -202,10 +201,9 @@ def insert_patient_table(values):
     db_executer(ip_query, 3, )
 
 """
-@Parm delete_receipt_prescription_table - delete tuple with receipt_id from data, accept list only
-Instruction: delete_receipt_prescription_table(patient_id_list)
+@Parm insert_medicine_table(values) -  insert tuple with pid from data, accept list only
+Instruction: insert_medicine_table(values) values follow attributes in the schemas
 *RETURN* -> None
-This function affect receipt and prescription
 """
 def insert_medicine_table(values):
     stock_id, exp_date, company_name, brand_name, description, price, quantity = values
