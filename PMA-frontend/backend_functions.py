@@ -155,7 +155,7 @@ def update_receipt_prescription_table(values, prescription_dict):
     if values[0] is None:
         return
     iter_list_name = ["total", "pid", "r_date"]
-    ur_query = "UPDATE receipt(rid, total, pid, r_date) SET "
+    ur_query = "UPDATE receipt SET "
     for i, attr in enumerate(iter_list_name):
         if values[i + 1] is not None and i<2:
             ur_query = ur_query + attr + " = " + str(values[i + 1]) + ", "
@@ -165,7 +165,7 @@ def update_receipt_prescription_table(values, prescription_dict):
     db_executer(ur_query, 3, )
 
     for key_stock in prescription_dict.keys():
-        upre_query = "UPDATE prescription(rid, stock_id, quantity) " + \
+        upre_query = "UPDATE prescription " + \
                              "SET quantity = "+ str(prescription_dict[key_stock]) + \
                              " WHERE rid = " + str(values[0]) + \
                              " and stock_id = "+ str(key_stock)

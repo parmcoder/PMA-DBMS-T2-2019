@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fe8b355b-44e4-4101-ab10-0f5e1d0f5c3a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../PMA-frontend/backend_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/../PMA-frontend/backend_functions.py" afterDir="false" />
-    </list>
+    <list default="true" id="fe8b355b-44e4-4101-ab10-0f5e1d0f5c3a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +49,7 @@
     <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PMA-frontend" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
@@ -153,6 +150,7 @@
       <workItem from="1584732391464" duration="234000" />
       <workItem from="1584733181389" duration="80000" />
       <workItem from="1584733472229" duration="605000" />
+      <workItem from="1584735044604" duration="610000" />
     </task>
     <servers />
   </component>
@@ -172,10 +170,10 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2698" y="430" width="354" height="226" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog/67.27.1853.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584623410425" />
-    <state x="760" y="311" key="FileChooserDialogImpl" timestamp="1584734075094">
+    <state x="760" y="311" key="FileChooserDialogImpl" timestamp="1584736320936">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="760" y="311" key="FileChooserDialogImpl/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584734075094" />
+    <state x="760" y="311" key="FileChooserDialogImpl/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584736320936" />
     <state width="1805" height="284" key="GridCell.Tab.0.bottom" timestamp="1584731872984">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
