@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe8b355b-44e4-4101-ab10-0f5e1d0f5c3a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/psql_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/psql_functions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,12 +52,12 @@
     <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PMA-frontend" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.psql_functions">
+  <component name="RunManager" selected="Python.receipt_gen">
     <configuration name="psql_connector" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PMA-backend" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -125,8 +126,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.psql_functions" />
         <item itemvalue="Python.receipt_gen" />
+        <item itemvalue="Python.psql_functions" />
         <item itemvalue="Python.psql_connector" />
       </list>
     </recent_temporary>
@@ -151,7 +152,9 @@
       <workItem from="1584732213264" duration="8000" />
       <workItem from="1584732391464" duration="234000" />
       <workItem from="1584733181389" duration="80000" />
-      <workItem from="1584733472229" duration="108000" />
+      <workItem from="1584733472229" duration="605000" />
+      <workItem from="1584735044604" duration="610000" />
+      <workItem from="1584790086394" duration="3668000" />
     </task>
     <servers />
   </component>
@@ -171,30 +174,30 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2698" y="430" width="354" height="226" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog/67.27.1853.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584623410425" />
-    <state x="760" y="311" key="FileChooserDialogImpl" timestamp="1584732623391">
+    <state x="760" y="311" key="FileChooserDialogImpl" timestamp="1584736320936">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="760" y="311" key="FileChooserDialogImpl/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584732623391" />
-    <state width="1805" height="284" key="GridCell.Tab.0.bottom" timestamp="1584731872984">
+    <state x="760" y="311" key="FileChooserDialogImpl/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584736320936" />
+    <state width="1805" height="284" key="GridCell.Tab.0.bottom" timestamp="1584794680085">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="1872" height="284" key="GridCell.Tab.0.bottom/67.27.1853.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584710593161" />
-    <state width="1805" height="284" key="GridCell.Tab.0.bottom/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584731872984" />
-    <state width="1805" height="284" key="GridCell.Tab.0.center" timestamp="1584731872984">
+    <state width="1805" height="284" key="GridCell.Tab.0.bottom/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584794680085" />
+    <state width="1805" height="284" key="GridCell.Tab.0.center" timestamp="1584794680085">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="1872" height="284" key="GridCell.Tab.0.center/67.27.1853.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584710593161" />
-    <state width="1805" height="284" key="GridCell.Tab.0.center/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584731872984" />
-    <state width="1805" height="284" key="GridCell.Tab.0.left" timestamp="1584731872983">
+    <state width="1805" height="284" key="GridCell.Tab.0.center/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584794680085" />
+    <state width="1805" height="284" key="GridCell.Tab.0.left" timestamp="1584794680084">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="1872" height="284" key="GridCell.Tab.0.left/67.27.1853.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584710593161" />
-    <state width="1805" height="284" key="GridCell.Tab.0.left/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584731872983" />
-    <state width="1805" height="284" key="GridCell.Tab.0.right" timestamp="1584731872984">
+    <state width="1805" height="284" key="GridCell.Tab.0.left/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584794680084" />
+    <state width="1805" height="284" key="GridCell.Tab.0.right" timestamp="1584794680085">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="1872" height="284" key="GridCell.Tab.0.right/67.27.1853.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584710593161" />
-    <state width="1805" height="284" key="GridCell.Tab.0.right/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584731872984" />
+    <state width="1805" height="284" key="GridCell.Tab.0.right/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584794680085" />
     <state width="1805" height="339" key="GridCell.Tab.1.bottom" timestamp="1584730619581">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -215,15 +218,15 @@
     </state>
     <state width="1872" height="350" key="GridCell.Tab.1.right/67.27.1853.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584658969473" />
     <state width="1805" height="339" key="GridCell.Tab.1.right/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584730619581" />
-    <state x="620" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1584733475028">
+    <state x="620" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1584790086992">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="2493" y="362" key="com.intellij.ide.util.TipDialog/67.27.1853.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584716640197" />
-    <state x="620" y="380" key="com.intellij.ide.util.TipDialog/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584733475028" />
+    <state x="620" y="380" key="com.intellij.ide.util.TipDialog/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1584790086992" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PMA_backend$psql_connector.coverage" NAME="psql_connector Coverage Results" MODIFIED="1584643751734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PMA_backend$psql_functions.coverage" NAME="psql_functions Coverage Results" MODIFIED="1584731808506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PMA_backend$receipt_gen.coverage" NAME="receipt_gen Coverage Results" MODIFIED="1584698950226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mock_data" />
+    <SUITE FILE_PATH="coverage/PMA_backend$psql_functions.coverage" NAME="psql_functions Coverage Results" MODIFIED="1584790718203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PMA_backend$receipt_gen.coverage" NAME="receipt_gen Coverage Results" MODIFIED="1584790790574" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mock_data" />
   </component>
 </project>
