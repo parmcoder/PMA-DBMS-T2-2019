@@ -155,7 +155,7 @@ def update_receipt_prescription_table(values, prescription_dict):
     if values[0] is None:
         return
     iter_list_name = ["total", "pid", "r_date"]
-    ur_query = "UPDATE receipt SET "
+    ur_query = "UPDATE receipt(rid, total, pid, r_date) SET "
     for i, attr in enumerate(iter_list_name):
         if values[i + 1] is not None and i<2:
             ur_query = ur_query + attr + " = " + str(values[i + 1]) + ", "
@@ -165,7 +165,7 @@ def update_receipt_prescription_table(values, prescription_dict):
     db_executer(ur_query, 3, )
 
     for key_stock in prescription_dict.keys():
-        upre_query = "UPDATE prescription " + \
+        upre_query = "UPDATE prescription(rid, stock_id, quantity) " + \
                              "SET quantity = "+ str(prescription_dict[key_stock]) + \
                              " WHERE rid = " + str(values[0]) + \
                              " and stock_id = "+ str(key_stock)
@@ -318,7 +318,8 @@ how much do we need to pre-purchase the drugs.
 With 2 data, we assume that the more we earn in the previous month, the more we will purchase the drugs.
 Also, the basic formula is as follow :
     amount_to_buy  = base_stock - amount_left + amount_sold + amount_sold/(2.5*ranking)   if on the top 3
-                   = base_stock - amount_left + int((amount_sold)*trend_slope)            if on the top 10, but not top 3
+                   = base_stock - amount_left + int((amount_sold)*trend_slope/100)        if on the top 10, but not top 3 and the trend is positive
+                                                                                          or not on the top 10 and the trend is negative
                    = base_stock - amount_left                                             otherwise           
 trend_slope is predicted using linear regression on the trend with straight line.
 base_stock is around 100, depends on the shop size.
@@ -373,9 +374,13 @@ def predict_restock(base_stock=100):
         if i < 3:
             amount_to_buy = base_stock - amount_left + amount_sold + amount_sold / (2.5 * ranking)
         elif 3 <= i <= 9:
-            amount_to_buy = base_stock - amount_left + int((amount_sold)*trend_slope/100)
+            amount_to_buy = base_stock - amount_left
+            if(trend_slope>0):
+                amount_to_buy = amount_to_buy + int((amount_sold) * trend_slope / 100)
         else:
             amount_to_buy = base_stock - amount_left
+            if(trend_slope<0):
+                amount_to_buy = amount_to_buy + int((amount_sold) * trend_slope / 100)
         if amount_to_buy < 0:
             amount_to_buy = 0
         to_buy_list.append([int(amount_to_buy), ele])

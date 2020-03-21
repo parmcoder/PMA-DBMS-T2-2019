@@ -318,7 +318,8 @@ how much do we need to pre-purchase the drugs.
 With 2 data, we assume that the more we earn in the previous month, the more we will purchase the drugs.
 Also, the basic formula is as follow :
     amount_to_buy  = base_stock - amount_left + amount_sold + amount_sold/(2.5*ranking)   if on the top 3
-                   = base_stock - amount_left + int((amount_sold)*trend_slope/100)            if on the top 10, but not top 3
+                   = base_stock - amount_left + int((amount_sold)*trend_slope/100)        if on the top 10, but not top 3 and the trend is positive
+                                                                                          or not on the top 10 and the trend is negative
                    = base_stock - amount_left                                             otherwise           
 trend_slope is predicted using linear regression on the trend with straight line.
 base_stock is around 100, depends on the shop size.
