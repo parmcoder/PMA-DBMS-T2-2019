@@ -112,7 +112,7 @@ class App:
                                             command=lambda: self.medUpdateConfirmedClicked(self.updateValues))
         self.um_updateButton1.grid(column=2, row=8, padx=5, pady=5)
 
-        ##Patient Not done
+        ##Patient
         self.update_patient_label1 = Label(self.up_update, text="Enter The Patient ID*")
         self.update_patient_label1.grid(column=1, row=1)
         self.update_patient_label2 = Label(self.up_update, text="Enter The Patient Name")
