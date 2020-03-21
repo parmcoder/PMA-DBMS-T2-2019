@@ -52,17 +52,17 @@ class App:
         self.update_choose_label1 = Label(self.uchoose, text="Choose the table that you want to update")
         self.update_choose_label1.grid(column=1, row=2, padx=10, pady=10)
 
-        self.choose_medicine = Button(self.uchoose, text='Medicines')
+        self.choose_medicine = Button(self.uchoose, text='Medicines', command=self.update_chooseMedicineClicked)
         self.choose_medicine.grid(column=2, row=2, padx=10, pady=10)
-        self.choose_rp = Button(self.uchoose, text='Sales', command=self.chooseRpClicked)
+        self.choose_rp = Button(self.uchoose, text='Sales', command=self.update_chooseRpClicked)
         self.choose_rp.grid(column=3, row=2, padx=10, pady=10)
-        self.choose_patient = Button(self.uchoose, text='Patients')
+        self.choose_patient = Button(self.uchoose, text='Patients', command=self.update_choosePatientClicked)
         self.choose_patient.grid(column=4, row=2, padx=10, pady=10)
 
         ##Medicine Not done
         self.update_med_label1 = Label(self.um_update, text="Enter Your Stock_ID*")
         self.update_med_label1.grid(column=1, row=1)
-        self.update_med_label2 = Label(self.um_update, text="Enter Your New Expire Date")
+        self.update_med_label2 = Label(self.um_update, text="Enter Your New Expire Date (YYYY-MM-DD)")
         self.update_med_label2.grid(column=1, row=2)
         self.update_med_label3 = Label(self.um_update, text="Enter The New Company Name")
         self.update_med_label3.grid(column=1, row=3)
@@ -74,6 +74,43 @@ class App:
         self.update_med_label6.grid(column=1, row=6)
         self.update_med_label7 = Label(self.um_update, text="Enter The Quantity")
         self.update_med_label7.grid(column=1, row=7)
+
+        self.um_stock_ID               = StringVar()
+        self.um_exp_date_year_input    = StringVar()
+        self.um_exp_date_month_input   = StringVar()
+        self.um_exp_date_day_input     = StringVar()
+        self.um_company_name           = StringVar()
+        self.um_brand_name             = StringVar()
+        self.um_description            = StringVar()
+        self.um_price                  = StringVar()
+        self.um_quantity               = StringVar()
+
+        self.um_input_list1 = [self.um_stock_ID, self.um_exp_date_year_input,self.um_exp_date_month_input,
+                               self.um_exp_date_day_input,self.um_company_name,self.um_brand_name,
+                               self.um_description,self.um_price,self.um_quantity]
+
+        self.um_stock_IDEntered             = Entry(self.um_update, width=20, textvariable=self.um_stock_ID)
+        self.um_stock_IDEntered.grid(column=2, row=1, padx=5, pady=5)
+        self.um_exp_date_year_inputEntered  = Entry(self.um_update, width=20, textvariable=self.um_exp_date_year_input)
+        self.um_exp_date_year_inputEntered.grid(column=2, row=2, padx=5, pady=5)
+        self.um_exp_date_month_inputEntered = Entry(self.um_update, width=20, textvariable=self.um_exp_date_month_input)
+        self.um_exp_date_month_inputEntered.grid(column=3, row=2, padx=5, pady=5)
+        self.um_exp_date_day_inputEntered   = Entry(self.um_update, width=20, textvariable=self.um_exp_date_day_input)
+        self.um_exp_date_day_inputEntered.grid(column=4, row=2, padx=5, pady=5)
+        self.um_company_nameEntered         = Entry(self.um_update, width=20, textvariable=self.um_company_name)
+        self.um_company_nameEntered.grid(column=2, row=3, padx=5, pady=5)
+        self.um_brand_nameEntered           = Entry(self.um_update, width=20, textvariable=self.um_brand_name)
+        self.um_brand_nameEntered.grid(column=2, row=4, padx=5, pady=5)
+        self.um_descriptionEntered          = Entry(self.um_update, width=20, textvariable=self.um_description)
+        self.um_descriptionEntered.grid(column=2, row=5, padx=5, pady=5)
+        self.um_priceEntered                = Entry(self.um_update, width=20, textvariable=self.um_price)
+        self.um_priceEntered.grid(column=2, row=6, padx=5, pady=5)
+        self.um_quantityEntered             = Entry(self.um_update, width=20, textvariable=self.um_quantity)
+        self.um_quantityEntered.grid(column=2, row=7, padx=5, pady=5)
+
+        self.um_updateButton1 = Button(self.um_update, text='Confirm',
+                                            command=lambda: self.medUpdateConfirmedClicked(self.updateValues))
+        self.um_updateButton1.grid(column=2, row=8, padx=5, pady=5)
 
         ##Patient Not done
 
@@ -261,6 +298,21 @@ class App:
         self.showtable(self.patienttableframe)
 
     # Parm's updateFunction - start
+
+    def medUpdateConfirmedClicked(self, storage):
+        date = self.um_input_list1[1].get() + "-" + self.um_input_list1[2].get() + "-" + self.um_input_list1[3].get()
+        for i in range(len(self.um_input_list1)):
+            if len(self.um_input_list1[i].get()) == 0:
+                storage.append(None)
+            else:
+                storage.append(self.um_input_list1[i].get())
+            if i == 0:
+                storage.append(date)
+                i = i + 3
+        print(storage)
+        backend_functions.update_medicine_table(storage)
+        self.hide_update()
+
     def updateConfirmedClicked(self, storage, count):
         storage.clear()
         if int(count)>5 or len(self.ur_input_list1[3].get()) != 4 or \
@@ -294,10 +346,18 @@ class App:
         self.hide_update()
         backend_functions.update_receipt_prescription_table(listPointer, dictPointer)
 
-    def chooseRpClicked(self):
+    def update_chooseRpClicked(self):
         self.hide_update()
         self.ur_modifyframe.pack(side=TOP, fill=X)
         self.ur_modifyFrameButton1.grid(column=3, row=5, padx=5, pady=5)
+
+    def update_chooseMedicineClicked(self):
+        self.hide_update()
+        self.um_update.pack(side=TOP, fill=X)
+
+    def update_choosePatientClicked(self):
+        self.hide_update()
+        self.up_update.pack(side=TOP, fill=X)
 
     def updateClicked(self):
         self.hide_update()
