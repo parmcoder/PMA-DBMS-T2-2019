@@ -39,8 +39,6 @@ class App:
         self.listBtn = Button(self.salesframe, text="List", command=self.listclicked)
 
 
-
-
         # Insert
         self.ichoose = Frame(self.window)
         self.im_insert = Frame(self.window)
@@ -538,7 +536,7 @@ class App:
         self.predictframe.pack_forget()
         self.showtable(self.buylistframe)
         
-        
+    #Insert frame functions
     def insertclicked(self):
         self.hide_update()
         self.hide_insert()
