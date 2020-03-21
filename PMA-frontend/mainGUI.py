@@ -3,7 +3,6 @@ from tkinter.ttk import *
 from PIL import ImageTk, Image
 import backend_functions
 
-
 class App:
     def __init__(self):
         self.window = Tk()
@@ -24,12 +23,7 @@ class App:
         self.entryframe2 = Frame(self.window)
         self.entryframe3 = Frame(self.window)
         self.submitframe = Frame(self.window)
-<<<<<<< HEAD
 
-        
-=======
-
->>>>>>> master
         self.medtable_results = backend_functions.get_medicine_table()
         self.expire_results = backend_functions.nearest_expire_date()
         self.receipt_results = backend_functions.get_receipt_table()
@@ -111,11 +105,7 @@ class App:
         self.insert_receipt_entry3.pack(side=TOP)
         self.insert_receipt_entry4.pack(side=TOP)
         self.insert_receipt_entry5.pack(side=TOP)
-<<<<<<< HEAD
 
-        
-        
-=======
         self.insertBtn = Button(self.btnframe, text="Insert data")
         self.modifyBtn = Button(self.btnframe, text="Modify data", command=self.updateClicked)
         self.deleteBtn = Button(self.btnframe, text="Delete data")
@@ -317,7 +307,7 @@ class App:
 
         # Parm's updateGUI - end
 
->>>>>>> master
+
         self.medicineBtn.pack(side=LEFT)
         self.salesBtn.pack(side=LEFT)
         self.patientBtn.pack(side=LEFT)
@@ -330,26 +320,14 @@ class App:
         self.insertsalesbtn.pack(side=LEFT)
         self.insertpatientbtn.pack(side=LEFT)
         self.btnframe.pack(side=TOP, anchor=W)
-self.submitframe.pack(side=LEFT, padx=20)
-<<<<<<< HEAD
-
-       
-        
-=======
-
->>>>>>> master
+        self.submitframe.pack(side=LEFT, padx=20)
         self.cols1 = ('Stock ID', 'Expiration Date', 'Company name', 'Brand name', 'Description', 'Price', 'Quantity')
         self.cols2 = (
         'Expired', 'Stock ID', 'Expiration Date', 'Company name', 'Brand name', 'Description', 'Price', 'Quantity')
         self.cols3 = ('Receipt ID', 'Total', 'Patient ID', 'Receipt Date')
         self.cols4 = ('Patient ID', 'Name', 'Allergy')
         self.cols5 = ('Restocking amount', 'Sold amount', 'Amount left', 'Stock ID')
-<<<<<<< HEAD
 
-        
-=======
-
->>>>>>> master
         self.medicinetable = Treeview(self.medtableframe, columns=self.cols1, show='headings')
         self.medicinetable.bind("<Double-1>", lambda event: self.OnDoubleClick(self.medicinetable, self.cols1))
         self.exptable = Treeview(self.exptableframe, columns=self.cols2, show='headings')
@@ -359,13 +337,7 @@ self.submitframe.pack(side=LEFT, padx=20)
         self.patienttable = Treeview(self.patienttableframe, columns=self.cols4, show='headings')
         self.patienttable.bind("<Double-1>", lambda event: self.OnDoubleClick(self.patienttable, self.cols4))
         self.buylisttable = Treeview(self.buylistframe, columns=self.cols5, show='headings')
-<<<<<<< HEAD
 
-        
-        
-=======
-
->>>>>>> master
         self.generate_medtable()
         self.generate_exptable()
         self.generate_receipttable()
@@ -376,19 +348,16 @@ self.submitframe.pack(side=LEFT, padx=20)
         self.receipttable.pack(side=LEFT, expand=True, fill=BOTH)
         self.patienttable.pack(side=LEFT, expand=True, fill=BOTH)
         self.buylisttable.pack(side=LEFT, expand=True, fill=BOTH)
-<<<<<<< HEAD
 
-        
-=======
-
->>>>>>> master
         self.image = Image.open("processed.png")
         self.image = self.image.resize((900, 500), Image.ANTIALIAS)
         self.img = ImageTk.PhotoImage(self.image)
 
         Label(self.predictframe, image=self.img).pack()
 
-        self.window.mainloop()    def confirm_prescription_number(self):
+        self.window.mainloop()
+
+    def confirm_prescription_number(self):
         getvar1 = self.insert_receipt_entry5.get()
 
     def submit_insert_request_1(self):
@@ -424,14 +393,9 @@ self.submitframe.pack(side=LEFT, padx=20)
     def medicineClicked(self):
         self.buylistframe.pack_forget()
 
-<<<<<<< HEAD
-        
-
-=======
 
     def medicineClicked(self):
         self.hide_update()
->>>>>>> master
         self.predictframe.pack_forget()
         self.salesframe.pack_forget()
         self.exptableframe.pack_forget()
@@ -450,11 +414,7 @@ self.submitframe.pack(side=LEFT, padx=20)
 
     def salesClicked(self):
         self.buylistframe.pack_forget()
-<<<<<<< HEAD
-
-=======
         self.hide_update()
->>>>>>> master
         self.predictframe.pack_forget()
         self.medframe.pack_forget()
         self.listBtn.pack_forget()
@@ -468,12 +428,7 @@ self.submitframe.pack(side=LEFT, padx=20)
 
     def predictClicked(self):
         self.buylistframe.pack_forget()
-
-<<<<<<< HEAD
-
-=======
         self.hide_update()
->>>>>>> master
         self.salestableframe.pack_forget()
         self.descframe.pack_forget()
         self.showtable(self.predictframe)
@@ -481,11 +436,7 @@ self.submitframe.pack(side=LEFT, padx=20)
 
     def patientclicked(self):
         self.buylistframe.pack_forget()
-<<<<<<< HEAD
-
-=======
         self.hide_update()
->>>>>>> master
         self.predictframe.pack_forget()
         self.medframe.pack_forget()
         self.salesframe.pack_forget()
@@ -661,13 +612,7 @@ self.submitframe.pack(side=LEFT, padx=20)
 
     def showtable(self, frame):
         frame.pack(side=TOP, anchor=W, fill=BOTH)
-<<<<<<< HEAD
 
-
-        
-=======
-
->>>>>>> master
     def generate_medtable(self):
         # Table for medicines
         col_width = self.medicinetable.winfo_width()
@@ -745,13 +690,6 @@ self.submitframe.pack(side=LEFT, padx=20)
 
         for row in self.buylist_results:
             self.buylisttable.insert("", "end", values=(row[0], row[1][0], row[1][1], row[1][2]))
-<<<<<<< HEAD
-            
-    
-
-        
-=======
->>>>>>> master
 
 
 if __name__ == '__main__':
