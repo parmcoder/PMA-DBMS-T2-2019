@@ -74,6 +74,8 @@ def get_medicine_table():
 @Parm get_medicine_rows - return sorted medicine rows with stock_id asked for
 Instruction: get_medicine_rows(stock_id)
 *RETURN* -> list of tuple with corresponding attributes
+
+Unused
 """
 def get_medicine_rows(ids):
     med_id_query = "SELECT * FROM medicine where stock_id = "

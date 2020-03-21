@@ -151,35 +151,35 @@ class App:
         self.insert_r_label5 = Label(self.ir_modifyframe, text="How Many Drugs Info Needed To Be Inserted? (Max: 5)")
         self.insert_r_label5.grid(column=1, row=5, padx=5, pady=5)
 
-        self.rid_input = StringVar()
-        self.total_input = StringVar()
-        self.pid_input = StringVar()
-        self.r_year_input = StringVar()
-        self.r_month_input = StringVar()
-        self.r_day_input = StringVar()
-        self.keys_count = StringVar()
+        self.insert_rid_input       = StringVar()
+        self.insert_total_input     = StringVar()
+        self.insert_pid_input       = StringVar()
+        self.insert_r_year_input    = StringVar()
+        self.insert_r_month_input   = StringVar()
+        self.insert_r_day_input     = StringVar()
+        self.insert_keys_count      = StringVar()
 
-        self.ir_input_list1 = [self.rid_input, self.total_input, self.pid_input,
-                               self.r_year_input, self.r_month_input, self.r_day_input]
+        self.ir_input_list1 = [self.insert_rid_input, self.insert_total_input, self.insert_pid_input,
+                               self.insert_r_year_input, self.insert_r_month_input, self.insert_r_day_input]
 
-        self.insert_rid_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.rid_input)
+        self.insert_rid_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.insert_rid_input)
         self.insert_rid_inputEntered.grid(column=2, row=1, padx=5, pady=5)
-        self.insert_total_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.total_input)
+        self.insert_total_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.insert_total_input)
         self.insert_total_inputEntered.grid(column=2, row=2, padx=5, pady=5)
-        self.insert_pid_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.pid_input)
+        self.insert_pid_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.insert_pid_input)
         self.insert_pid_inputEntered.grid(column=2, row=3, padx=5, pady=5)
-        self.insert_r_year_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.r_year_input)
+        self.insert_r_year_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.insert_r_year_input)
         self.insert_r_year_inputEntered.grid(column=2, row=4, padx=5, pady=5)
-        self.insert_r_month_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.r_month_input)
+        self.insert_r_month_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.insert_r_month_input)
         self.insert_r_month_inputEntered.grid(column=3, row=4, padx=5, pady=5)
-        self.insert_r_day_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.r_day_input)
+        self.insert_r_day_inputEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.insert_r_day_input)
         self.insert_r_day_inputEntered.grid(column=4, row=4, padx=5, pady=5)
-        self.insert_keys_countEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.keys_count)
+        self.insert_keys_countEntered = Entry(self.ir_modifyframe, width=20, textvariable=self.insert_keys_count)
         self.insert_keys_countEntered.grid(column=2, row=5, padx=5, pady=5)
 
         self.ir_modifyFrameButton1 = Button(self.ir_modifyframe, text='Confirm',
                                             command=lambda: self.insertConfirmedClicked(self.insertValues,
-                                                                                        self.keys_count.get()))
+                                                                                        self.insert_keys_count.get()))
 
         ##Prescription
         self.insert_pre_label1 = Label(self.ir_dictionaryframe, text="Enter The First Drug ID and Quantity Respectively")
@@ -188,39 +188,39 @@ class App:
         self.insert_pre_label4 = Label(self.ir_dictionaryframe, text="Enter The Fourth Drug ID and Quantity Respectively")
         self.insert_pre_label5 = Label(self.ir_dictionaryframe, text="Enter The Fifth Drug ID and Quantity Respectively")
 
-        self.drug_ID_input1 = StringVar()
-        self.drug_ID_input2 = StringVar()
-        self.drug_ID_input3 = StringVar()
-        self.drug_ID_input4 = StringVar()
-        self.drug_ID_input5 = StringVar()
+        self.insert_drug_ID_input1 = StringVar()
+        self.insert_drug_ID_input2 = StringVar()
+        self.insert_drug_ID_input3 = StringVar()
+        self.insert_drug_ID_input4 = StringVar()
+        self.insert_drug_ID_input5 = StringVar()
 
-        self.quantity_input1 = StringVar()
-        self.quantity_input2 = StringVar()
-        self.quantity_input3 = StringVar()
-        self.quantity_input4 = StringVar()
-        self.quantity_input5 = StringVar()
+        self.insert_quantity_input1 = StringVar()
+        self.insert_quantity_input2 = StringVar()
+        self.insert_quantity_input3 = StringVar()
+        self.insert_quantity_input4 = StringVar()
+        self.insert_quantity_input5 = StringVar()
 
-        self.ir_input_dict = [self.drug_ID_input1, self.quantity_input1,
-                              self.drug_ID_input2, self.quantity_input2,
-                              self.drug_ID_input3, self.quantity_input3,
-                              self.drug_ID_input4, self.quantity_input4,
-                              self.drug_ID_input5, self.quantity_input5,
+        self.ir_input_dict = [self.insert_drug_ID_input1, self.insert_quantity_input1,
+                              self.insert_drug_ID_input2, self.insert_quantity_input2,
+                              self.insert_drug_ID_input3, self.insert_quantity_input3,
+                              self.insert_drug_ID_input4, self.insert_quantity_input4,
+                              self.insert_drug_ID_input5, self.insert_quantity_input5,
                               ]
 
-        self.insert_drug_ID_input1Entered = Entry(self.ir_dictionaryframe, width=20, textvariable= self.drug_ID_input1)
-        self.insert_quantity_input1Entered = Entry(self.ir_dictionaryframe, width=20, textvariable= self.quantity_input1)
+        self.insert_drug_ID_input1Entered = Entry(self.ir_dictionaryframe, width=20, textvariable= self.insert_drug_ID_input1)
+        self.insert_quantity_input1Entered = Entry(self.ir_dictionaryframe, width=20, textvariable= self.insert_quantity_input1)
 
-        self.insert_drug_ID_input2Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.drug_ID_input2)
-        self.insert_quantity_input2Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.quantity_input2)
+        self.insert_drug_ID_input2Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.insert_drug_ID_input2)
+        self.insert_quantity_input2Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.insert_quantity_input2)
 
-        self.insert_drug_ID_input3Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.drug_ID_input3)
-        self.insert_quantity_input3Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.quantity_input3)
+        self.insert_drug_ID_input3Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.insert_drug_ID_input3)
+        self.insert_quantity_input3Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.insert_quantity_input3)
 
-        self.insert_drug_ID_input4Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.drug_ID_input4)
-        self.insert_quantity_input4Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.quantity_input4)
+        self.insert_drug_ID_input4Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.insert_drug_ID_input4)
+        self.insert_quantity_input4Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.insert_quantity_input4)
 
-        self.insert_drug_ID_input5Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.drug_ID_input5)
-        self.insert_quantity_input5Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.quantity_input5)
+        self.insert_drug_ID_input5Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.insert_drug_ID_input5)
+        self.insert_quantity_input5Entered = Entry(self.ir_dictionaryframe, width=20, textvariable=self.insert_quantity_input5)
 
         self.ip_showEntries_list = [self.insert_pre_label1, self.insert_drug_ID_input1Entered, self.insert_quantity_input1Entered,
                                     self.insert_pre_label2, self.insert_drug_ID_input2Entered, self.insert_quantity_input2Entered,
