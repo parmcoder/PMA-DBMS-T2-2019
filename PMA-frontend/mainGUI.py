@@ -10,13 +10,12 @@ class App:
         self.window.title("PMA")
         self.window.geometry("1200x600")
         self.btnframe = Frame(self.window)
-        self.insertselectionframe = Frame(self.window)
         self.medframe = Frame(self.window)
         self.medtableframe = Frame(self.window)
         self.exptableframe = Frame(self.window)
         self.salesframe = Frame(self.window)
         self.salestableframe = Frame(self.window)
-        self.patienttableframe = Frame(self.window)
+        self.patientframe = Frame(self.window)
         self.descframe = Frame(self.window)
         self.predictframe = Frame(self.window)
         self.buylistframe = Frame(self.window)
@@ -33,7 +32,7 @@ class App:
         self.patientBtn = Button(self.btnframe, text="Patients", command=self.patientclicked)
         self.insertBtn = Button(self.btnframe, text="Insert data", command=self.insertclicked)
         self.modifyBtn = Button(self.btnframe, text="Modify data", command=self.updateClicked)
-        self.deleteBtn = Button(self.btnframe, text="Delete data")
+        self.deleteBtn = Button(self.btnframe, text="Delete data", command=self.deleteClicked)
         self.expBtn = Button(self.medframe, text="Expiring", command=self.expiredclicked)
         self.predictBtn = Button(self.salesframe, text="Prediction", command=self.predictClicked)
         self.listBtn = Button(self.salesframe, text="List", command=self.listclicked)
@@ -425,6 +424,71 @@ class App:
 
         # Parm's updateGUI - end
 
+        # Delete
+        self.dchoose = Frame(self.window)
+        self.dm_delete = Frame(self.window)
+        self.dp_delete = Frame(self.window)
+        self.dr_delete = Frame(self.window)
+
+        self.deleteValues = []  # update values
+
+        ##Choose table
+        self.delete_choose_label1 = Label(self.dchoose, text="Choose the table that you want to delete data")
+        self.delete_choose_label1.grid(column=1, row=2, padx=10, pady=10)
+
+        self.delete_choose_medicine = Button(self.dchoose, text='Medicines', command=self.delete_chooseMedicineClicked)
+        self.delete_choose_medicine.grid(column=2, row=2, padx=10, pady=10)
+        self.delete_choose_rp = Button(self.dchoose, text='Sales', command=self.delete_chooseRpClicked)
+        self.delete_choose_rp.grid(column=3, row=2, padx=10, pady=10)
+        self.delete_choose_patient = Button(self.dchoose, text='Patients', command=self.delete_choosePatientClicked)
+        self.delete_choose_patient.grid(column=4, row=2, padx=10, pady=10)
+
+        self.delete_med_label1 = Label(self.dm_delete, text="Enter Your Stock IDs")
+        self.delete_med_label1.grid(column=1, row=1)
+
+        self.dm_stock_ID = StringVar()
+
+        self.dm_input_string = self.dm_stock_ID
+        self.dm_input_list = []
+
+        self.dm_stock_IDEntered = Entry(self.dm_delete, width=20, textvariable=self.dm_stock_ID)
+        self.dm_stock_IDEntered.grid(column=2, row=1, padx=5, pady=5)
+
+        self.dm_deleteButton1 = Button(self.dm_delete, text='Confirm',
+                                            command=lambda: self.medDeleteConfirmedClicked(self.deleteValues))
+        self.dm_deleteButton1.grid(column=2, row=8, padx=5, pady=5)
+
+        ##Patient
+        self.delete_patient_label1 = Label(self.dp_delete, text="Enter The Patient IDs")
+        self.delete_patient_label1.grid(column=1, row=1)
+
+        self.dp_patient_ID = StringVar()
+
+        self.dp_input_string = self.dp_patient_ID
+        self.dp_input_list = []
+
+        self.dp_patient_IDEntered = Entry(self.dp_delete, width=20, textvariable=self.dp_patient_ID)
+        self.dp_patient_IDEntered.grid(column=2, row=1, padx=5, pady=5)
+
+        self.dp_deleteButton1 = Button(self.dp_delete, text='Confirm',
+                                       command=lambda: self.patientDeleteConfirmedClicked(self.deleteValues))
+        self.dp_deleteButton1.grid(column=2, row=8, padx=5, pady=5)
+        ##RECEIPT
+        self.delete_r_label1 = Label(self.dr_delete, text="Enter Your Receipt IDs")
+        self.delete_r_label1.grid(column=1, row=1, padx=5, pady=5)
+
+        self.delete_rid_input = StringVar()
+
+        self.dr_input_string = self.delete_rid_input
+        self.dr_input_list = []
+
+        self.delete_rid_inputEntered = Entry(self.dr_delete, width=20, textvariable=self.delete_rid_input)
+        self.delete_rid_inputEntered.grid(column=2, row=1, padx=5, pady=5)
+
+        self.dr_deleteButton1 = Button(self.dr_delete, text='Confirm',
+                                       command=lambda: self.deleteConfirmedClicked(self.insertValues))
+        self.dr_deleteButton1.grid(column=2, row=8, padx=5, pady=5)
+
         # Pack all buttons and table.
 
         self.medicineBtn.pack(side=LEFT)
@@ -449,7 +513,7 @@ class App:
         self.exptable.bind("<Double-1>", lambda event: self.OnDoubleClick(self.exptable, self.cols2))
         self.receipttable = Treeview(self.salestableframe, columns=self.cols3, show='headings')
         self.receipttable.bind("<Double-1>", lambda event: self.OnDoubleClick(self.receipttable, self.cols3))
-        self.patienttable = Treeview(self.patienttableframe, columns=self.cols4, show='headings')
+        self.patienttable = Treeview(self.patientframe, columns=self.cols4, show='headings')
         self.patienttable.bind("<Double-1>", lambda event: self.OnDoubleClick(self.patienttable, self.cols4))
         self.buylisttable = Treeview(self.buylistframe, columns=self.cols5, show='headings')
 
@@ -472,82 +536,57 @@ class App:
 
         self.window.mainloop()
 
-
-    def medicineClicked(self):
-        self.hide_update()
+    def hide_all(self):
         self.hide_insert()
-        self.buylistframe.pack_forget()
-        self.predictframe.pack_forget()
+        self.hide_update()
+        self.hide_delete()
+
+        self.medframe.pack_forget()
         self.salesframe.pack_forget()
+        self.patientframe.pack_forget()
+
+        self.medtableframe.pack_forget()
         self.exptableframe.pack_forget()
+        self.predictframe.pack_forget()
+        self.buylistframe.pack_forget()
         self.descframe.pack_forget()
         self.salestableframe.pack_forget()
-        self.patienttableframe.pack_forget()
-        self.insertselectionframe.pack_forget()
+
+        self.listBtn.pack_forget()
+
+
+    def medicineClicked(self):
+        self.hide_all()
         self.medframe.pack(side=TOP, anchor=E)
         self.showtable(self.medtableframe)
 
     def expiredclicked(self):
-        self.hide_update()
-        self.hide_insert()
-        self.medtableframe.pack_forget()
-        self.descframe.pack_forget()
+        self.hide_all()
         self.showtable(self.exptableframe)
 
     def salesClicked(self):
-        self.buylistframe.pack_forget()
-        self.hide_update()
-        self.hide_insert()
-        self.predictframe.pack_forget()
-        self.medframe.pack_forget()
-        self.listBtn.pack_forget()
-        self.medtableframe.pack_forget()
-        self.descframe.pack_forget()
-        self.exptableframe.pack_forget()
-        self.patienttableframe.pack_forget()
-        self.insertselectionframe.pack_forget()
+        self.hide_all()
         self.salesframe.pack(side=TOP, anchor=NE)
         self.showtable(self.salestableframe)
 
     def predictClicked(self):
-        self.buylistframe.pack_forget()
-        self.hide_update()
-        self.hide_insert()
-        self.salestableframe.pack_forget()
-        self.descframe.pack_forget()
-        self.showtable(self.predictframe)
+        self.hide_all()
+        self.salesframe.pack(side=TOP, anchor=NE)
         self.listBtn.pack(side=TOP, fill=X)
+        self.showtable(self.predictframe)
 
     def patientclicked(self):
-        self.buylistframe.pack_forget()
-        self.hide_update()
-        self.hide_insert()
-        self.predictframe.pack_forget()
-        self.medframe.pack_forget()
-        self.salesframe.pack_forget()
-        self.descframe.pack_forget()
-        self.exptableframe.pack_forget()
-        self.salestableframe.pack_forget()
-        self.medtableframe.pack_forget()
-        self.insertselectionframe.pack_forget()
-        self.showtable(self.patienttableframe)
+        self.hide_all()
+        self.showtable(self.patientframe)
         
     def listclicked(self):
         self.predictframe.pack_forget()
         self.showtable(self.buylistframe)
+
         
     #Insert frame functions
     def insertclicked(self):
-        self.hide_update()
-        self.hide_insert()
-        self.medframe.pack_forget()
-        self.salesframe.pack_forget()
-        self.descframe.pack_forget()
-        self.exptableframe.pack_forget()
-        self.salestableframe.pack_forget()
-        self.patienttableframe.pack_forget()
-        self.medtableframe.pack_forget()
-        self.buylistframe.pack_forget()
+        self.hide_all()
         self.ichoose.pack(side=TOP, fill=X)
 
     def patientInsertConfirmedClicked(self, storage):
@@ -634,7 +673,6 @@ class App:
         self.ip_insert.pack_forget()
         self.ir_dictionaryframe.pack_forget()
         self.ir_modifyframe.pack_forget()
-        
 
     # Parm's updateFunction - start
 
@@ -716,15 +754,7 @@ class App:
         self.up_update.pack(side=TOP, fill=X)
 
     def updateClicked(self):
-        self.hide_update()
-        self.hide_insert()
-        self.medframe.pack_forget()
-        self.salesframe.pack_forget()
-        self.descframe.pack_forget()
-        self.exptableframe.pack_forget()
-        self.salestableframe.pack_forget()
-        self.patienttableframe.pack_forget()
-        self.medtableframe.pack_forget()
+        self.hide_all()
         self.uchoose.pack(side=TOP, fill=X)
 
     def hide_update(self):
@@ -734,6 +764,74 @@ class App:
         self.ur_dictionaryframe.pack_forget()
         self.ur_modifyframe.pack_forget()
     # Parm's updateFunction - end
+
+    # Delete Functions
+
+    def patientDeleteConfirmedClicked(self, storage):
+        storage.clear()
+        if len(self.dp_input_string.get()) == 0:
+            return
+
+        self.dp_input_list = backend_functions.tokens_for_delete(self.dp_input_string.get())
+
+        for i in range(len(self.dp_input_list)):
+            if len(self.dp_input_list[i]) != 0:
+                storage = self.dp_input_list[i]
+        print(storage)
+        backend_functions.delete_patient_table(storage)
+        self.hide_delete()
+
+    def medDeleteConfirmedClicked(self, storage):
+        storage.clear()
+        if len(self.dm_input_string.get()) == 0:
+            return
+
+        self.dm_input_list = backend_functions.tokens_for_delete(self.dm_input_string.get())
+
+        for i in range(len(self.dm_input_list)):
+            if len(self.dm_input_list[i]) != 0:
+                storage = self.dm_input_list
+        print(storage)
+        backend_functions.delete_medicine_table(storage)
+        self.hide_delete()
+
+    def deleteConfirmedClicked(self, storage):
+        storage.clear()
+        if len(self.delete_rid_input.get()) == 0:
+            return
+
+        self.dr_input_list = backend_functions.tokens_for_delete(self.dr_input_string.get())
+
+        for i in range(len(self.dr_input_list)):
+            if len(self.dr_input_list[i]) != 0:
+                storage = self.dr_input_list
+        print(storage)
+        backend_functions.delete_receipt_prescription_table(storage)
+        self.dr_deleteButton1.grid_forget()
+        self.hide_delete()
+
+
+    def delete_chooseRpClicked(self):
+        self.hide_delete()
+        self.dr_delete.pack(side=TOP, fill=X)
+
+    def delete_chooseMedicineClicked(self):
+        self.hide_delete()
+        self.dm_delete.pack(side=TOP, fill=X)
+
+    def delete_choosePatientClicked(self):
+        self.hide_update()
+        self.dp_delete.pack(side=TOP, fill=X)
+
+    def deleteClicked(self):
+        self.hide_all()
+        self.dchoose.pack(side=TOP, fill=X)
+
+    def hide_delete(self):
+        self.dchoose.pack_forget()
+        self.dm_delete.pack_forget()
+        self.dp_delete.pack_forget()
+        self.dr_delete.pack_forget()
 
     def OnDoubleClick(self, table, cols):
         row = table.focus()
@@ -811,7 +909,7 @@ class App:
         for col in self.cols4:
             self.patienttable.heading(col, text=col)
             self.patienttable.column(col, anchor=W, width=col_width)
-        scrollbar = Scrollbar(self.patienttableframe, orient='vertical', command=self.patienttable.yview)
+        scrollbar = Scrollbar(self.patientframe, orient='vertical', command=self.patienttable.yview)
         self.patienttable.configure(yscrollcommand=scrollbar.set)
         scrollbar.pack(side=RIGHT, anchor=E, fill=Y)
 
