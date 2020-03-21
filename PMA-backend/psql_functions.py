@@ -234,6 +234,36 @@ def insert_receipt_prescription_table(values, prescription_dict):
                              "VALUES (" + str(rid) + "," + str(key_stock) + "," + str(prescription_dict[key_stock]) + ")"
         db_executer(prescription_query, 3, )
 
+"""
+@Parm tokens_for_delete - generate a list for deletion
+Instruction: tokens_for_delete(input_string) where input_string is given in the form 
+"[12,53,26]" or "12,34,56"
+*RETURN* -> a list of unique number.
+"""
+def tokens_for_delete(input_string : str):
+    copystr = input_string
+    tokens = copystr.split(',')
+    answer = []
+    totalsplit = []
+    tokens1 = [i.split('[') for i in tokens]
+    tokens2 = [i.split(']') for i in tokens]
+    for i in tokens1[0]:
+        totalsplit.append(i)
+    for i in tokens2[len(tokens1) - 1]:
+        totalsplit.append(i)
+    for i in tokens:
+        totalsplit.append(i)
+    for i in totalsplit:
+        try:
+            int(i)
+        except ValueError:
+            print("Not a number")
+            continue
+        answer.append(i)
+    set_answer = set(answer)
+    final= list(set_answer)
+    print(final)
+    return final
 
 """
 @Parm delete_medicine_table - delete tuple with stock_id from data, accept list only
