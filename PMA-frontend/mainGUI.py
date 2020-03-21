@@ -59,7 +59,7 @@ class App:
         self.choose_patient = Button(self.uchoose, text='Patients', command=self.update_choosePatientClicked)
         self.choose_patient.grid(column=4, row=2, padx=10, pady=10)
 
-        ##Medicine Not done
+        ##Medicine
         self.update_med_label1 = Label(self.um_update, text="Enter Your Stock_ID*")
         self.update_med_label1.grid(column=1, row=1)
         self.update_med_label2 = Label(self.um_update, text="Enter Your New Expire Date (YYYY-MM-DD)")
@@ -113,7 +113,30 @@ class App:
         self.um_updateButton1.grid(column=2, row=8, padx=5, pady=5)
 
         ##Patient Not done
+        self.update_patient_label1 = Label(self.up_update, text="Enter The Patient ID*")
+        self.update_patient_label1.grid(column=1, row=1)
+        self.update_patient_label2 = Label(self.up_update, text="Enter The Patient Name")
+        self.update_patient_label2.grid(column=1, row=2)
+        self.update_patient_label3 = Label(self.up_update, text="Enter The Patient Allergy")
+        self.update_patient_label3.grid(column=1, row=3)
 
+        self.up_patient_ID = StringVar()
+        self.up_patient_name_input = StringVar()
+        self.up_patient_allergy_input = StringVar()
+
+        self.up_input_list1 = [self.up_patient_ID, self.up_patient_name_input, self.up_patient_allergy_input
+                               ]
+
+        self.um_patient_IDEntered = Entry(self.up_update, width=20, textvariable=self.up_patient_ID)
+        self.um_patient_IDEntered.grid(column=2, row=1, padx=5, pady=5)
+        self.um_patient_name_inputEntered = Entry(self.up_update, width=20, textvariable=self.up_patient_name_input)
+        self.um_patient_name_inputEntered.grid(column=2, row=2, padx=5, pady=5)
+        self.um_patient_allergy_inputEntered = Entry(self.up_update, width=20, textvariable=self.up_patient_allergy_input)
+        self.um_patient_allergy_inputEntered.grid(column=2, row=3, padx=5, pady=5)
+
+        self.um_updateButton1 = Button(self.up_update, text='Confirm',
+                                       command=lambda: self.patientUpdateConfirmedClicked(self.updateValues))
+        self.um_updateButton1.grid(column=2, row=8, padx=5, pady=5)
         ##RECEIPT
         self.r_label1 = Label(self.ur_modifyframe, text="Enter Your Receipt ID")
         self.r_label1.grid(column=1, row=1, padx=5, pady=5)
@@ -206,6 +229,7 @@ class App:
 
         self.up_ConfirmButton = Button(self.ur_dictionaryframe, text='Confirm',
                                    command=lambda: self.updateConfirmedClicked2(self.updateValues, self.updateDictionary))
+
         # Parm's updateGUI - end
 
         self.medicineBtn.pack(side=LEFT)
@@ -299,7 +323,24 @@ class App:
 
     # Parm's updateFunction - start
 
+    def patientUpdateConfirmedClicked(self, storage):
+        storage.clear()
+        if len(self.up_input_list1[0].get()) == 0 :
+            return
+
+        for i in range(len(self.up_input_list1)):
+            if len(self.up_input_list1[i].get()) == 0:
+                storage.append(None)
+            else:
+                storage.append(self.up_input_list1[i].get())
+        print(storage)
+        backend_functions.update_patient_table(storage)
+        self.hide_update()
+
     def medUpdateConfirmedClicked(self, storage):
+        storage.clear()
+        if len(self.um_input_list1[0].get()) == 0:
+            return
         date = self.um_input_list1[1].get() + "-" + self.um_input_list1[2].get() + "-" + self.um_input_list1[3].get()
         for i in range(len(self.um_input_list1)):
             if len(self.um_input_list1[i].get()) == 0:
